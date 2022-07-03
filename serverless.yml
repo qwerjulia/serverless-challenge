@@ -1,0 +1,25 @@
+service: serverless-challenge
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+functions:
+  create_employee:
+    handler: employee_events.create_employee
+    events:
+      - httpApi: 'POST /employees/create'
+  read_employee:
+    handler: employee_events.read_employee
+    events:
+      - httpApi: 'GET /employees/read'
+  update_employee:
+    handler: employee_events.update_employee
+    events:
+      - httpApi: 'PUT /employees/update'
+  delete_employee:
+    handler: employee_events.delete_employee
+    events:
+      - httpApi: 'DELETE /employees/delete'
+	
