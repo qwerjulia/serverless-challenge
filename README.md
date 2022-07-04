@@ -1,92 +1,54 @@
-<!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS'
-description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
-layout: Doc
-framework: v3
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+<h1> Serverless Challenge </h1>
 
-# Serverless Framework Node HTTP API on AWS
+Esse projeto tem como objetivo atender aos requisitos do desafio proposto no seguinte respositório: https://github.com/mvdornellas/serverless-challenge. Isto é, provisionar uma infraestrutura na AWS, em que se tenha uma lambda que sejá capaz de registrar em um banco de dados relacional ou não relacional, dados sobre funcionários de uma empresa.
 
-This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.
+<hr>
 
-This template does not include any kind of persistence (database). For more advanced examples, check out the [serverless/examples repository](https://github.com/serverless/examples/) which includes Typescript, Mongo, DynamoDB and other examples.
+<h2> API </h2>
 
-## Usage
+Criação de um novo funcionário: 
+  - Método: POST
+  - PATH: /employees/create
+  - Params: nome: String, cargo: String, idade: Number
 
-### Deployment
+Leitura de um funcionário: 
+  - Método: GET
+  - PATH: /employees/read
+  - Params: id
 
-```
-$ serverless deploy
-```
+Atualização de um funcionário: 
+  - Método: PUT
+  - PATH: /employees/update
+  - Params: id: Number, nome: String, cargo: String, idade: Number
 
-After deploying, you should see output similar to:
+Exclusão de um funcionário: 
+  - Método: DELETE
+  - PATH: /employees/delete
+  - Params: id: Number
 
-```bash
-Deploying aws-node-http-api-project to stage dev (us-east-1)
+<h2> Recursos utilizados </h2>
 
-✔ Service deployed to stack aws-node-http-api-project-dev (152s)
+Para esse projeto foram utilizados os recursos:
 
-endpoint: GET - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/
-functions:
-  hello: aws-node-http-api-project-dev-hello (1.9 kB)
-```
+<h3> Clean Architectute </h3>
 
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/).
+Proposta no próprio repositório do desafio, a Clean Architecture é uma arquiterura de desenvolvimendo de sofwares que tem como principal objetivo facilitar o entendimento do código através do conceito de clean code ao mesmo tempo que facilita nas futuras alterações do projeto por meio da desacoplação de funcionamentos, trazendo o o isolamento das regras de negócio e das regras da aplicação, sem dependencia do banco de dados, frameworks ou interfaces.
 
-### Invocation
+<br>
+<img src="https://www.macoratti.net/20/10/aspc_cleanarq11.jpg">
+<br>
+<strong>Nota: </strong> Apesar de já conhecer seu conceito, decidi estudar mais sobre essa tecnologia antes de implementá-la no projeto. Confesso que fiquei admirada com as possibilidades que a mesma pode trazer, como a indepêndencia do banco de dados, interface e realização de testes, que custumam ser as partes mais complexas quando precisamos atualizar. Sempre gostei trabalhar em cima de arquiteturas de software e programação estruturada, além do interesse em POO e utilizar diariamente os modelos de MVC de forma direta.
 
-After successful deployment, you can call the created application via HTTP:
+<h3> Serverless </h3>
+Também proposta no repositório do desafio com hospedagem via AWS Lambda, as aplicações serverless são implantadas em containers que são iniciados sob demanda e automaticamente quando chamados.
+<br> 
+<strong>Nota: </strong>Anteriormente, já havia trabalhado com serviços serverless, principalmente através do Cloudflare Worker principalmente por conta do meu primeiro projeto em JS, uma extensão web para usuários do Mercado Livre.
 
-```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
-```
+<h3> Jest </h3>
+Como pedido no repositório, Jest foi utilizado para realizar a parte de testes do projeto.
 
-Which should result in response similar to the following (removed `input` content for brevity):
-
-```json
-{
-  "message": "Go Serverless v2.0! Your function executed successfully!",
-  "input": {
-    ...
-  }
-}
-```
-
-### Local development
-
-You can invoke your function locally by using the following command:
-
-```bash
-serverless invoke local --function hello
-```
-
-Which should result in response similar to the following:
-
-```
-{
-  "statusCode": 200,
-  "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
+<h3> Sequelize </h3>
+O Sequelize é um ORM(Object/Relational Mapper) baseado em Promise que pode ser utilizado em Node.js. O principal motivo de sua escolhe é que eles operam como um agente de banco de dados, sendo possível através de pouquíssimas mudanças, utilizar o mesmo código para mais de um banco de dados. 
 
 
-Alternatively, it is also possible to emulate API Gateway and Lambda locally by using `serverless-offline` plugin. In order to do that, execute the following command:
 
-```bash
-serverless plugin install -n serverless-offline
-```
-
-It will add the `serverless-offline` plugin to `devDependencies` in `package.json` file as well as will add it to `plugins` in `serverless.yml`.
-
-After installation, you can start local emulation with:
-
-```
-serverless offline
-```
-
-To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
